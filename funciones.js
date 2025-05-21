@@ -6,7 +6,7 @@ $(document).ready(function () {
 
   //Cuando pulsamos el botón con id actual 1ª CONSULTA CON FETCH consulta diferente
   $("#actual").click(function () {
-    $("#actual").html("<img src='/imagenes/cambia.gif'>"); //gif de espera a la petición
+    $("#actual").html("<img src='cambia.gif'>"); //gif de espera a la petición
 
     let localizacion = $("#entrada").val(); //variable para meter lo que se introcuce en la caja de texto.
 
