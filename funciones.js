@@ -73,7 +73,7 @@ $(document).ready(function () {
   });
   //Cuando pulsamos el botón con id predicción 2ª CONSULTA esta con $AJAX
   $("#prediccion").click(function () {
-    $("#prediccion").html("<img src='/imagenes/cambia.gif'>");
+    $("#prediccion").html("<img src='cambia.gif'>");
 
     let localizacion = $("#entrada").val();
     //consulta $AJAX:
@@ -158,7 +158,7 @@ $(document).ready(function () {
         let iframeMapa = $("#mapaEnIframe")[0]; //[0] necesario para seleccionar el elemento, aunque solo haya un iframe en la página
         if (iframeMapa) {
           // Actualizar la URL del iframe para mostrar el mapa en la ubicación actual
-          iframeMapa.src = `/Estructura/mapa.html?lat=${lat}&lon=${lon}`;
+          iframeMapa.src = `mapa.html?lat=${lat}&lon=${lon}`;
         }
       } catch (error) {
         console.error("Error al obtener los datos:", error);
