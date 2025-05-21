@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa</title>
+    
+    <!--CSS-->
+    <link rel="stylesheet" href="estilos/estilo.css">
+    <!--Librerias: pata mapas y Jquery-->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/Estructura/funciones/funciones.js"></script>
+    
+    
+</head>
+<body>
+    <div id="mapaIframe"></div>
+    
+    <script>
+        
+        //objeto para trabajar con los parámetros que le enviamos en URL
+        let urlParams = new URLSearchParams(window.location.search); //Busqueda parametros
+        let lat = urlParams.get('lat'); 
+        let lon = urlParams.get('lon');
+        // si existen los parametros montamos el mapa (codigo internet)
+        if (lat && lon) {
+            let mapaIframe = L.map('mapaIframe').setView([lat, lon], 12); // mapa
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18
+            }).addTo(mapaIframe);
+        } else {
+           
+            console.log("No se recibieron latitud y longitud.");
+        }
+    </script>
+</body>
+</html>

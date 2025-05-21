@@ -1,0 +1,87 @@
+html,
+body {
+  height: 100%;
+  margin: 0; 
+}
+h1 {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+.botonera {
+  margin-left: 10%;
+  display: flex; 
+  width: 30%; 
+  justify-content: space-between; 
+  margin-bottom: 1rem; 
+}
+
+.botones {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  margin-left: 10%;
+  width: max-content;
+  display: inline-block;
+  width: 48%;
+}
+
+.botones:hover {
+  background-color: #45a049;
+}
+
+#iframe {
+  align-items: flex-end;
+  padding-top: 1%;
+  padding-left: 10%;
+  height: 200px;
+  margin-left: 10%;
+}
+
+#entrada_label {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.2rem;
+  margin-left: 2rem;
+  margin-top: 0.7rem;
+  display: block;
+  transition: all 0.3s;
+  transform: translateY(0rem);
+}
+
+#entrada {
+  font-family: "Roboto", sans-serif;
+  color: #333;
+  font-size: 1.2rem;
+  margin-left: 10%;
+  padding: 1.5rem 2rem;
+  border-radius: 0.2rem;
+  background-color: rgb(255, 255, 255);
+  border: 3px solid blueviolet;
+  width: 30%;
+  display: block;
+  transition: all 0.3s;
+}
+
+iframe {
+  margin-left: 10%;
+}
+#mapaIframe {
+  height: 100%;
+  width: 100%;
+}
+
+#tablaResultado {
+  border-collapse: collapse;
+  margin: 25px 0;
+  margin-left: 10%;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+#diaHoy {
+  background-color: #ffffff;
+}

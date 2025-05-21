@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Tarea 6</title>
+    <link rel="icon" type="image/png" href="/imagenes/nubesSol.png">
+    <link rel="stylesheet" href="estilos/estilo.css">
+    <!--Librerias: pata mapas y Jquery-->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+     <script src="funciones/funciones.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+
+</head>
+    <body >
+        <h1>EL tiempo</h1>
+        <!--Imput para elegir localización-->
+        <h3>Elige la localización:</h3>
+        
+        <input type="text" id="entrada" placeholder="localización" required="" />
+        <label for="name" id="entrada_label"></label> <td><!--Aquí se mostrará el mapa del lugar indicado-->
+            
+        <!-- iframe con sus medidas -->
+        <iframe src="/Estructura/mapa.html" id="mapaEnIframe" width='400px' height="200px" style="border:1px solid black;">
+</iframe>
+
+        <div id="eleccion"> </div> <!--Aqui aparecera la eleccion del usuario-->
+        <div class="botonera">
+        <!-- El primer botón es un botón va a mostrar la previsión del tiempo actual. -->
+        <button type="button" class="botones" id="actual">Tiempo Actual</button>
+
+        <!--El segundo botón la previsión para los diez próximos días.-->
+        <button type="button" class="botones" id="prediccion">Predicción</button>
+
+        <!--El tercer botón la previsión para los diez próximos días.-->
+        <button type="button" class="botones" id="localizacion">Localización</button>
+        
+        </div>
+        
+        
+        
+        
+        
+       
+
+       <table id="tablaResultado">
+        <tr>
+            <td>Dia</td>
+            <td>Prediccion</td>
+        </tr>
+        <!--Fila para los resultados : -->
+        <tr  id="diaHoy">
+            <td><div id="resultado"> </div></td>
+            <td><img src="" id="iconoClima"/></td>
+        </tr>
+        <tr>
+            <td><div id="resultadoPrediccion"></div></td>
+            <td><div id="iconoPrediccion"></div></td>
+            
+        </tr>
+        
+        </table>
+   
+        
+    </body>
+    </html>
