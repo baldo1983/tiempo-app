@@ -10,7 +10,8 @@ $(document).ready(function () {
 
     let localizacion = $("#entrada").val(); //variable para meter lo que se introcuce en la caja de texto.
 
-    //llamada a la api con la localizacion, incluimos idioma y pais:
+    //llamada a la api con la localizacion, incluimos idioma y pais curiosamente si le introduzco la , ya lo coje bien, 
+    // logica del GEO en 3ª consulta:
     fetch(
       `https://api.weatherapi.com/v1/current.json?key=832dc4d5ff934d1989a105127251305&q=${localizacion} ES&aqi=yes&lang=es`
     )
@@ -123,50 +124,84 @@ $(document).ready(function () {
     ); // cierre GET
   });
   // Cuando pulsamos el botón con id localización 3ª CONSULTA CON AXIOS
-  $("#localizacion").click(function () {
-    $("#localizacion").html("<img src='/imagenes/cambia.gif'>"); //gif de espera a la petición
+  $("#localizacion").click(async function () {
+    $("#localizacion").html("<img src='cambia.gif'>"); // gif de espera a la petición
+    
     if (miMapa) {
-      miMapa.remove(); // Eliminar la instancia anterior del mapa si existiera
+        miMapa.remove(); // Eliminar la instancia anterior del mapa si existiera
     }
-    let localizacion = $("#entrada").val(); //variable para meter lo que se introcuce en la caja de texto.
 
-    //Consulta con axios:
-    async function obtenerDatosDeLaAPI() {
-      try {
-        //SINTAXIS TRY_CATCH_FINALLY (Java)
+    let localizacionIntroducida = $("#entrada").val().trim(); //Limpiamos la entrada
+    let nombreCiudad;
+    let codigoPais = "ES"; // Por defecto, buscamos en España
+    let partes = localizacionIntroducida.split(','); //contamos si ha introducido coma
+
+
+    if (partes.length > 1) { //si es mayor a uno es que SI la ha introducido.
+        nombreCiudad = partes[0].trim(); // El nombre de la ciudad es la primera parte
+        codigoPais = partes[1].trim().toUpperCase(); // Código de país 2ª parte
+        console.log(codigoPais);
+        
+    } else if (partes.length === 1){
+        nombreCiudad = localizacionIntroducida; //si solo ha introducido una parte sin comas se tomara el España como pais por defecto
+         
+      }
+      else{
+        console("ERROR");//control
+      }
+
+    try {
         let datos_devueltos = await axios.get(
-          `https://api.weatherapi.com/v1/current.json?key=832dc4d5ff934d1989a105127251305&q=${localizacion} ES&aqi=yes&lang=es`
-        );
-        console.log("Datos recibidos:", datos_devueltos.data);
-        //trabajamos con los datos:
-        // cordenadas:
-        let lat = datos_devueltos.data.location.lat;
-        let lon = datos_devueltos.data.location.lon;
-        let nombre = datos_devueltos.data.location.name;
-        let region = datos_devueltos.data.location.region;
-        let pais = datos_devueltos.data.location.country;
-        console.log(lat + " " + lon + " " + nombre); //control
-
-        //jQuery para manipular el DOM, en este caso el  texto que mostrará la elección:
-        $("#eleccion").html(
-          " EL tiempo en " + nombre + " en " + region + " de " + pais
+            `http://geodb-free-service.wirefreethought.com/v1/geo/places?limit=5&offset=0&types=CITY&namePrefix=${nombreCiudad}&languageCode=es`
         );
         
+        console.log("Datos recibidos:", datos_devueltos.data);
 
-        //jQuery para manipular el DOM, en este caso el Iframe:
+        
+            let ciudadSeleccionada = null;
+            console.log(codigoPais);
+            // Recorremos todos las ciudades con mismo nombre
+            for (let i = 0; i < datos_devueltos.data.data.length; i++) {
+                if (datos_devueltos.data.data[i].countryCode === codigoPais) {
+                    ciudadSeleccionada = datos_devueltos.data.data[i];// cojo el objeto del Array, si hubiera 2 ciudads con mismo 
+                    //nombre en un pais cojera el último no sé depurar esto, EJ: Springfield
+                   
+                }
+            }
 
-        let iframeMapa = $("#mapaEnIframe")[0]; //[0] necesario para seleccionar el elemento, aunque solo haya un iframe en la página
-        if (iframeMapa) {
-          // Actualizar la URL del iframe para mostrar el mapa en la ubicación actual
-          iframeMapa.src = `mapa.html?lat=${lat}&lon=${lon}`;
-        }
-      } catch (error) {
+
+            if (!ciudadSeleccionada) {
+                
+                alert(`No se encontró '${nombreCiudad}' en ${codigoPais}.`);
+            }
+
+            // Ahora trabajamos con la ciudadSeleccionada
+            let nombre = ciudadSeleccionada.name;
+            let region = ciudadSeleccionada.region;
+            let pais = ciudadSeleccionada.country;
+            let lat = ciudadSeleccionada.latitude;
+            let lon = ciudadSeleccionada.longitude;
+            
+            console.log(`Latitud: ${lat}, Longitud: ${lon}, Nombre: ${nombre}, Región: ${region}, País: ${pais}`);
+
+            // jQuery para manipular el DOM, en este caso el texto que mostrará la elección:
+            $("#eleccion").html(
+                "El tiempo en " + nombre + " en " + region + " de " + pais
+            );
+            
+            // jQuery para manipular el DOM, en este caso el Iframe:
+            let iframeMapa = $("#mapaEnIframe")[0]; //Jqueri trabaja así, elemento 1º del DOM aunque sólo hay uno
+            if (iframeMapa) {
+                iframeMapa.src = `mapa.html?lat=${lat}&lon=${lon}`;
+            }
+
+        
+
+    } catch (error) {
         console.error("Error al obtener los datos:", error);
-      } finally {
+        alert("Hubo un error al buscar la localización. Por favor, inténtalo de nuevo más tarde.");
+    } finally {
         $("#localizacion").html("Localización"); // Restaurar el texto del botón
-      }
     }
-    obtenerDatosDeLaAPI();
-    //variables en las que incluir los datos recogidos en la consulta
-  });
+});
 }); //FIN CARGA DE DOCUMENTO
